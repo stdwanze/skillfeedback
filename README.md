@@ -1,15 +1,14 @@
 # skillfeedback
 
-clone this repo somewhere.
+## Requirements
+- Docker
+- Docker-compose
 
-create a EMPTY folder /path/to/moodle (not same as clone path)
-edit docker-compose.yml so that source match /path/to/moodle
+## Install
+1. Clone this repository.
+2. `docker-compose up -d`
 
-run in shell:
-docker-compose up -d
-
-wait until /path/to/moodle is populated and moodle is available under "localhost" in browser. 
-
-clone again in /path/to/moodle/local
-
-for changes to take effect, reload moodle
+## Development
+> Plugin development must occur in `/local`
+> 
+> For changes to take effect, reload moodle
