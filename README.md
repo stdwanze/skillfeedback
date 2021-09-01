@@ -1,14 +1,15 @@
 # skillfeedback
 
-create a folder /path/to/moodle
-add a folder 'local' underneath
-clone into path/to/moodle/local
+clone this repo somewhere.
 
-edit yaml so that source match /path/to/moodle
+create a EMPTY folder /path/to/moodle (not same as clone path)
+edit docker-compose.yml so that source match /path/to/moodle
 
 run in shell:
 docker-compose up -d
 
-browse to localhost
+wait until /path/to/moodle is populated and moodle is available under "localhost" in browser. 
+
+clone again in /path/to/moodle/local
 
 for changes to take effect, reload moodle
