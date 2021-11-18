@@ -1,0 +1,3 @@
+[submodule "organizer"]
+	path = organizer
+	url = git@github.com:msteiner96/moodle-mod_organizer.git
