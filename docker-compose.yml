@@ -1,36 +1,48 @@
-version: '2'
+version: "3.3"
 services:
   mariadb:
-    image: docker.io/bitnami/mariadb:10.5
+    image: "bitnami/mariadb:10.3"
+    networks:
+      - moodle-net
     environment:
-      # ALLOW_EMPTY_PASSWORD is recommended only for development.
-      - ALLOW_EMPTY_PASSWORD=yes
       - MARIADB_USER=bn_moodle
       - MARIADB_DATABASE=bitnami_moodle
-      - MARIADB_CHARACTER_SET=utf8mb4
-      - MARIADB_COLLATE=utf8mb4_unicode_ci
-    volumes:
-      - 'mariadb_data:/bitnami/mariadb'
-  moodle:
-    image: docker.io/bitnami/moodle:3
-    ports:
-      - '80:8080'
-      - '443:8443'
-    environment:
-      - MOODLE_DATABASE_HOST=mariadb
-      - MOODLE_DATABASE_PORT_NUMBER=3306
-      - MOODLE_DATABASE_USER=bn_moodle
-      - MOODLE_DATABASE_NAME=bitnami_moodle
-      # ALLOW_EMPTY_PASSWORD is recommended only for development.
       - ALLOW_EMPTY_PASSWORD=yes
     volumes:
-      - './moodle:/bitnami/moodle'
-      - './mod/organizer:/bitnami/moodle/mod/organizer'
-      - 'moodledata_data:/bitnami/moodledata'
+      - type: bind
+        source: ./maria_data
+        target: /bitnami
+    ports:
+      - "3306:3306"
+  moodle:
+    image: "webdevops/php-apache:7.3"
+    networks:
+      - moodle-net
+    environment:
+      - MOODLE_DBHOST=mariadb
+      - MOODLE_DBPORT=3306
+      - MOODLE_DBUSER=bn_moodle
+      - MOODLE_DBPASS=''
+      - MOODLE_DBNAME=bitnami_moodle
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - type: bind
+        source: ./moodle_data
+        target: /moodledata/moodledata
+      - type: bind
+        source: ./gita-moodle
+        target: /app
     depends_on:
-      - mariadb
+      - mariadb 
+networks:
+  moodle-net:
+    driver: bridge
+
 volumes:
   mariadb_data:
     driver: local
-  moodledata_data:
+  moodle_data:
     driver: local
+
